@@ -6,13 +6,15 @@
 </template>
 
 <script>
+	import { ref } from 'vue';
+
 	export default {
 		name: 'App',
 		setup() {
-			let num = 0;
+			let num = ref(0);
 
 			const increment = () => {
-				num++;
+				num.value++;
 			};
 
 			return {
