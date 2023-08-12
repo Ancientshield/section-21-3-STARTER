@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<p>{{ num }}</p>
+		<p>{{ double }}</p>
 		<button @click.prevent="increment">Click Me</button>
 		<p>{{ name }}</p>
 		<p>
@@ -14,7 +15,7 @@
 </template>
 
 <script>
-	import { ref, reactive, toRefs, watchEffect } from 'vue';
+	import { ref, reactive, toRefs, watchEffect, computed } from 'vue';
 
 	export default {
 		name: 'App',
@@ -24,6 +25,10 @@
 			const increment = () => {
 				num.value++;
 			};
+
+			const double = computed(() => {
+				return num.value * 2;
+			});
 
 			const user = reactive({
 				name: 'John',
@@ -37,9 +42,15 @@
 			const phrase = ref('');
 			const reversePhrase = ref('');
 
+			// 方法一：使用 watchEffect，較簡潔
 			watchEffect(() => {
 				reversePhrase.value = phrase.value.split('').reverse().join('');
 			});
+
+			// 方法二：使用 watch
+			// watch([phrase], ([newVal, oldVal]) => {
+			// 	reversePhrase.value = phrase.value.split('').reverse().join('');
+			// });
 
 			return {
 				num,
@@ -47,6 +58,7 @@
 				...toRefs(user),
 				phrase,
 				reversePhrase,
+				double,
 			};
 		},
 	};
