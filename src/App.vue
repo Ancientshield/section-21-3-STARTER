@@ -28,6 +28,7 @@
 	export default {
 		name: 'App',
 		setup() {
+			// 作者建議這兩個鉤子放 setup() 下面
 			onBeforeMount(() => {
 				console.log('onBeforeMount()');
 			});
