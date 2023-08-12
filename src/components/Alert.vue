@@ -5,9 +5,9 @@
 	import { computed } from 'vue';
 	export default {
 		props: ['user'],
-		// 因為 setup 會在 props 前就執行，
-		// 所以要用預設 props 參數傳入
-		setup(props) {
+		setup(props, context) {
+			context.emit('eventName', {});
+
 			const flag = computed(() => {
 				return props.user.name === 'John';
 			});
