@@ -26,6 +26,8 @@
 				num.value++;
 			};
 
+			// computed function 會 return reactive reference，
+			// 但 watch function 不會。
 			const double = computed(() => {
 				return num.value * 2;
 			});
