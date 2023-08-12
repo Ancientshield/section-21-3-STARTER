@@ -11,6 +11,7 @@
 			>Reverse:
 			<p style="display: inline">{{ reversePhrase }}</p>
 		</label>
+		<app-alert :user="user" />
 	</div>
 </template>
 
@@ -25,10 +26,16 @@
 		onMounted,
 	} from 'vue';
 
+	import AppAlert from './components/Alert.vue';
+
 	export default {
 		name: 'App',
+		// 記得加s
+		components: {
+			// 不用 return
+			AppAlert,
+		},
 		setup() {
-			// 作者建議這兩個鉤子放 setup() 下面
 			onBeforeMount(() => {
 				console.log('onBeforeMount()');
 			});
@@ -43,8 +50,6 @@
 				num.value++;
 			};
 
-			// computed function 會 return reactive reference，
-			// 但 watch function 不會。
 			const double = computed(() => {
 				return num.value * 2;
 			});
@@ -61,15 +66,9 @@
 			const phrase = ref('');
 			const reversePhrase = ref('');
 
-			// 方法一：使用 watchEffect，較簡潔
 			watchEffect(() => {
 				reversePhrase.value = phrase.value.split('').reverse().join('');
 			});
-
-			// 方法二：使用 watch
-			// watch([phrase], ([newVal, oldVal]) => {
-			// 	reversePhrase.value = phrase.value.split('').reverse().join('');
-			// });
 
 			return {
 				num,
@@ -78,6 +77,7 @@
 				phrase,
 				reversePhrase,
 				double,
+				user,
 			};
 		},
 	};
