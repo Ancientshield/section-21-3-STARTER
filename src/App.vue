@@ -18,17 +18,11 @@
 </template>
 
 <script>
-	import {
-		ref,
-		reactive,
-		toRefs,
-		watchEffect,
-		computed,
-		onBeforeMount,
-		onMounted,
-	} from 'vue';
+	import { ref, reactive, toRefs, onBeforeMount, onMounted } from 'vue';
 
 	import AppAlert from './components/Alert.vue';
+	import { useNumber } from './hooks/number.js';
+	import { usePhrase } from './hooks/phrase.js';
 
 	export default {
 		name: 'App',
@@ -38,30 +32,15 @@
 			AppAlert,
 		},
 		setup() {
-			// ref 會創建在 setup 之前，若直接賦值會報錯
-			// 故給 null
 			const btn = ref(null);
 			onBeforeMount(() => {
 				console.log('onBeforeMount()');
 			});
 
 			onMounted(() => {
-				console.log('onMounted()');
-				// addEventListener 要在 Vue 實例創建後再掛載
-				// 否則就會回傳 null
 				btn.value.addEventListener('click', () => {
 					console.log('button clicked');
 				});
-			});
-
-			let num = ref(0);
-
-			const increment = () => {
-				num.value++;
-			};
-
-			const double = computed(() => {
-				return num.value * 2;
 			});
 
 			const user = reactive({
@@ -73,12 +52,8 @@
 				user.name = 'Luis';
 			}, 3000);
 
-			const phrase = ref('');
-			const reversePhrase = ref('');
-
-			watchEffect(() => {
-				reversePhrase.value = phrase.value.split('').reverse().join('');
-			});
+			const { num, increment, double } = useNumber();
+			const { phrase, reversePhrase, num: phraseNum } = usePhrase();
 
 			return {
 				num,
@@ -89,6 +64,7 @@
 				double,
 				user,
 				btn,
+				phraseNum,
 			};
 		},
 	};
